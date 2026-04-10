@@ -7,7 +7,7 @@ RESOURCES_URL = f"{BASE_URL}/disk/resources"
 COPY_URL = f"{BASE_URL}/disk/resources/copy"
 
 # ВАЖНО: замените на ваш OAuth-токен
-OAUTH_TOKEN = "y0__xDN8_XkCBjLlkAggc-JhBcwu7yKgwgGUxlyRAsMo1T_RqnvV-J2rT_-_A"
+OAUTH_TOKEN = "your_OAuth-token"
 
 # Заголовки для всех запросов
 HEADERS = {
