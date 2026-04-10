@@ -18,16 +18,23 @@ Git (для клонирования репозитория);
 
 Структура проекта
 
-yandex-disk-tests/
-├── requirements.txt         # зависимости проекта
-├── config.py                # конфигурация (URL API, токен, тестовые данные)
-├── conftest.py              # фикстуры pytest (создание/удаление тестовой папки)
-└── tests/
-    ├── __init__.py
-    ├── test_get_disk_info.py      # тесты GET‑запросов (информация о Диске)
-    ├── test_put_create_folder.py  # тесты PUT‑запросов (создание папок)
-    ├── test_post_copy_resource.py # тесты POST‑запросов (копирование ресурсов)
-    └── test_delete_resource.py    # тесты DELETE‑запросов (удаление ресурсов)
+Файл/Папка	Назначение
+
+requirements.txt	Зависимости проекта
+
+config.py	Конфигурация (URL API, токен, тестовые данные)
+
+conftest.py	Фикстуры pytest (создание/удаление тестовой папки)
+
+tests/	Папка с тестами
+
+tests/test_get_disk_info.py	Тесты GET‑запросов (информация о Диске)
+
+tests/test_put_create_folder.py	Тесты PUT‑запросов (создание папок)
+
+tests/test_post_copy_resource.py	Тесты POST‑запросов (копирование ресурсов)
+
+tests/test_delete_resource.py	Тесты DELETE‑запросов (удаление ресурсов)
 
 Установка и настройка
 
@@ -43,7 +50,7 @@ venv\Scripts\activate     # Windows
 Установите зависимости
 pip install -r requirements.txt
 
- Настройте OAuth‑токен
+Настройте OAuth‑токен
 Получите OAuth‑токен для Яндекс.Диска:
 перейдите на страницу Яндекс OAuth: https://oauth.yandex.ru/;
 войдите в свой аккаунт;
@@ -66,22 +73,3 @@ OAUTH_TOKEN = "ваш_реальный_oauth_токен_здесь"
 Запустить с подробным выводом (verbose):
 pytest -v
 
-Ожидаемые результаты
-При успешном запуске вы увидите в консоли:
-
-test session starts =====================
-platform linux -- Python 3.x, pytest-7.4.0, pluggy-1.0.0
-rootdir: /path/to/yandex-disk-tests
-collected 4 items
-
-tests/test_get_disk_info.py .                          [ 25%]
-tests/test_put_create_folder.py .                     [ 50%]
-tests/test_post_copy_resource.py .                   [ 75%]
-tests/test_delete_resource.py .                      [100%]
-
-============================== 4 passed in 5.21s ======================
-
-Расшифровка символов:
-. — тест пройден успешно;
-F — тест упал (failed);
-E — произошла ошибка выполнения (error).
