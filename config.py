@@ -1,5 +1,5 @@
-import os
-from dotenv import load_dotenv
+import os # Импортирует модуль Python os. Используется для доступа к переменным окружения через os.getenv()
+from dotenv import load_dotenv # Позволяет загружать переменные окружения из файла .env (OAUTH_TOKEN)
 
 # Загружаем переменные окружения из файла .env
 load_dotenv()
@@ -19,8 +19,8 @@ HEADERS = {
 # Имя тестовой папки, которая будет создаваться для тестов
 TEST_FOLDER = "test_folder"
 
-# Имя тестового файла для операций загрузки/скачивания
+# Имя тестового файла для операций
 TEST_FILE_NAME = "test_file.txt"
 
-# Содержимое тестового файла
+# Содержимое тестового файла 
 TEST_FILE_CONTENT = "Hello, Yandex.Disk!"
