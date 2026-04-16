@@ -1,27 +1,26 @@
 import pytest
+from config import BASE_URL, HEADERS, TEST_FOLDER
 import requests
-from config import RESOURCES_URL, HEADERS, TEST_FOLDER
 
 @pytest.fixture(scope="session")
-def setup_and_cleanup_test_folder():
+def setup_test_folder():
     """
-    Фикстура: создаёт тестовую папку перед тестами, удаляет после
+    Фикстура pytest: создаёт тестовую папку перед запуском тестов
+    и удаляет её после завершения всех тестов в сессии.
+    scope="session" означает, что фикстура выполняется один раз для всей сессии тестов.
     """
-    # Создаём тестовую папку
-    params = {"path": TEST_FOLDER}
-    response = requests.put(RESOURCES_URL, headers=HEADERS, params=params)
-    assert response.status_code == 201, f"Не удалось создать тестовую папку: {response.json()}"
+    folder_url = f"{BASE_URL}/disk/resources"  # URL для работы с ресурсами (папками/файлами)
+    params = {"path": TEST_FOLDER}  # Параметры запроса: путь к создаваемой папке
 
-    print(f"Тестовая папка {TEST_FOLDER} создана")
+    # Создаём папку с помощью PUT-запроса
+    response = requests.put(folder_url, headers=HEADERS, params=params)
+    # Проверяем, что папка создана успешно (код 201 — Created)
+    assert response.status_code == 201, f"Не удалось создать тестовую папку: {response.text}"
 
-    # Возвращаем путь к папке — он будет доступен в тестах
-    yield TEST_FOLDER
+    yield TEST_FOLDER  # Передаём имя папки в тесты, которые используют эту фикстуру
 
-    # Удаляем тестовую папку после всех тестов
-    delete_params = {"path": TEST_FOLDER, "permanently": "true"}
-    response = requests.delete(RESOURCES_URL, headers=HEADERS, params=delete_params)
-
-    if response.status_code in [204, 404]:
-        print(f"Тестовая папка {TEST_FOLDER} удалена")
-    else:
-        print(f"Предупреждение: не удалось удалить папку: {response.json()}")
+    # Код после yield выполняется после завершения всех тестов, использующих эту фикстуру
+    params = {"path": TEST_FOLDER}  # Указываем путь к папке для удаления
+    response = requests.delete(folder_url, headers=HEADERS, params=params)
+    # Проверяем, что удаление прошло успешно (коды 202 — Accepted или 204 — No Content)
+    assert response.status_code in [202, 204], f"Не удалось удалить тестовую папку: {response.text}"
