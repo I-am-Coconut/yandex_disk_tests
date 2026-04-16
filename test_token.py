@@ -12,43 +12,40 @@ oauth_token = os.getenv("OAUTH_TOKEN")
 if not oauth_token:
     raise ValueError("OAuth-токен не найден в .env-файле. Проверьте наличие переменной OAUTH_TOKEN.")
 
-# Корректный URL с правильным протоколом
+# URL с протоколом для запроса информации о диске
 url = "https://cloud-api.yandex.net/v1/disk"
 
-# Формируем заголовки с токеном из .env
+# Формируем заголовки с токеном из .env для авторизации в API
 headers = {"Authorization": f"OAuth {oauth_token}"}
 
 try:
     # Отправляем GET-запрос к API Яндекс.Диска с таймаутом 10 секунд
     response = requests.get(url, headers=headers, timeout=10)
 
-    # Выводим статус-код ответа
-    print(f"Status Code: {response.status_code}")
-
+ # Анализируем статус-код ответа сервера
     if response.status_code == 200:
-        # Успешный ответ — парсим JSON и выводим данные
+        # Успешный ответ (200 OK) — парсим JSON и подтверждаем корректность токена
         data = response.json()
-        print("Корректный токен")
+        assert True, "Токен корректен, получен ответ от API Яндекс.Диска"
     elif response.status_code == 401:
-        # Ошибка авторизации: неверный или просроченный токен
-        print("Ошибка 401: Неверный или просроченный OAuth-токен.")
+        # Ошибка авторизации: неверный или просроченный токен (401 Unauthorized)
+        assert False, "Ошибка 401: Неверный или просроченный OAuth-токен."
     elif response.status_code == 403:
-        # Запрещено: недостаточно прав у токена
-        print("Ошибка 403: Недостаточно прав у OAuth-токена.")
+        # Запрещено: недостаточно прав у токена (403 Forbidden)
+        assert False, "Ошибка 403: Недостаточно прав у OAuth-токена."
     else:
-        # Другие ошибки — выводим статус и текст ответа
-        print(f"Ошибка {response.status_code}:")
+        # Другие ошибки — формируем сообщение с кодом и данными ответа
         try:
-            # Пытаемся распарсить JSON ошибки, если он есть
+            # Пытаемся распарсить JSON ошибки, если он есть в ответе сервера
             error_data = response.json()
-            print(error_data)
+            assert False, f"Ошибка {response.status_code}: {error_data}"
         except ValueError:
-            # Если ответ не в формате JSON, выводим текст как есть
-            print(response.text)
+            # Если ответ не в формате JSON, используем текст ответа как описание ошибки
+            assert False, f"Ошибка {response.status_code}: {response.text}"
 
 except requests.exceptions.RequestException as e:
-    # Обработка сетевых ошибок (нет соединения, тайм-аут и т. п.)
-    print(f"Сетевая ошибка: {e}")
+    # Обработка сетевых ошибок (нет соединения, тайм-аут, неверный URL и т. п.)
+    assert False, f"Сетевая ошибка: {e}"
 except ValueError as e:
     # Обработка ошибок конфигурации (например, отсутствие токена)
-    print(f"Ошибка конфигурации: {e}")
+    assert False, f"Ошибка конфигурации: {e}"
