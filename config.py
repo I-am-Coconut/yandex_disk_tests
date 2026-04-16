@@ -1,5 +1,6 @@
 import os # Импортирует модуль Python os. Используется для доступа к переменным окружения через os.getenv()
 from dotenv import load_dotenv # Позволяет загружать переменные окружения из файла .env (OAUTH_TOKEN)
+from datetime import datetime
 
 # Загружаем переменные окружения из файла .env
 load_dotenv()
@@ -16,11 +17,17 @@ HEADERS = {
     "Content-Type": "application/json"  # Указываем, что отправляем JSON-данные
 }
 
+def generate_test_foldername():
+    return f"test_folder_{datetime.now().strftime('%H%M%S')}"
+
 # Имя тестовой папки, которая будет создаваться для тестов
-TEST_FOLDER = "test_folder"
+TEST_FOLDER = generate_test_foldername()
+
+def generate_test_filename():
+    return f"test_file_{datetime.now().strftime('%H%M%S')}.txt"
 
 # Имя тестового файла для операций
-TEST_FILE_NAME = "test_file.txt"
+TEST_FILE_NAME = generate_test_filename()
 
 # Содержимое тестового файла 
 TEST_FILE_CONTENT = "Hello, Yandex.Disk!"
