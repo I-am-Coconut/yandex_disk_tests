@@ -5,7 +5,6 @@
 
 [![Python](https://img.shields.io/badge/Python-3.x-blue)](https://www.python.org/)
 [![pytest](https://img.shields.io/badge/pytest-7.4.0-green)](https://github.com/pytest-dev/pytest)
-[![License](https://img.shields.io/badge/License-MIT-green)
 
 # Описание
 
